@@ -1,0 +1,20 @@
+.fullscreenDiv {
+  width: 100%;
+  height: auto;
+  bottom: 0px;
+  top: 0px;
+  left: 0px;
+  position: absolute;
+}
+.center {
+  position: absolute;
+  width: 300px;
+  height: 90px;
+  top: 50%;
+  left: 45%;
+  margin-top: -25px;
+  margin-left: -30px;
+}
+.ng-autocomplete {
+  width: 300px;
+}

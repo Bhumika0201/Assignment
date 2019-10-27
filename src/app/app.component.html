@@ -1,0 +1,50 @@
+<div class="fullscreenDiv">
+  <div class="center">
+    <div class="ng-autocomplete">
+      <ng-autocomplete
+        [data]="data"
+        [searchKeyword]="keyword"
+        [itemTemplate]="itemTemplate"
+        [placeHolder]="placeholder"
+        [(ngModel)]="searchValue"
+        (keyup.enter)="onEnter(searchValue)"
+      >
+      </ng-autocomplete>
+
+      <ng-template #itemTemplate let-item>
+        <a [innerHTML]="item"></a>
+      </ng-template>
+    </div>
+
+    <div style="padding: 10px 10px 10px 0px;">
+      <button
+        type=""
+        style="margin-right:6px"
+        class="btn btn-primary"
+        *ngIf="locations.length > 0"
+      >
+        {{ locations[0].locationName }}
+      </button>
+      <button
+        type="text"
+        style="margin-right:6px"
+        class="btn btn-primary"
+        *ngIf="locations.length > 1"
+      >
+        {{ locations[1].locationName }}
+      </button>
+      <select
+        class="btn btn-primary"
+        value="n more"
+        *ngIf="locations.length > 2"
+      >
+        <option selected disabled>{{ locations.length - 2 }} more</option>
+
+        <option *ngFor="let location of locations | slice: 2">
+          {{location.locationName}}</option>
+      </select>
+    </div>
+  </div>
+</div>
+
+<router-outlet></router-outlet>
