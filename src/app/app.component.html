@@ -1,20 +1,14 @@
 <div class="fullscreenDiv">
   <div class="center">
-    <div class="ng-autocomplete">
-      <ng-autocomplete
-        [data]="data"
-        [searchKeyword]="keyword"
-        [itemTemplate]="itemTemplate"
-        [placeHolder]="placeholder"
-        [(ngModel)]="searchValue"
-        (keyup.enter)="onEnter(searchValue)"
-      >
-      </ng-autocomplete>
-
-      <ng-template #itemTemplate let-item>
-        <a [innerHTML]="item"></a>
-      </ng-template>
-    </div>
+    <input
+      class="form-control"
+      ngx-google-places-autocomplete
+      [(ngModel)]="searchValue"
+      (onAddressChange)="searchValue = $event.address_components[0].long_name"
+      #places="ngx-places"
+      (keyup.enter)="onEnter()"
+      placeholder="Location"
+    />
 
     <div style="padding: 10px 10px 10px 0px;">
       <button
@@ -41,7 +35,8 @@
         <option selected disabled>{{ locations.length - 2 }} more</option>
 
         <option *ngFor="let location of locations | slice: 2">
-          {{location.locationName}}</option>
+          {{ location.locationName }}</option
+        >
       </select>
     </div>
   </div>
