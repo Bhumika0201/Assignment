@@ -1,6 +1,7 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { ConnectionService } from "./connection.servic";
 import { locationmodel } from "./location";
+import { GooglePlaceDirective } from "ngx-google-places-autocomplete";
 
 @Component({
   selector: "app-root",
@@ -8,6 +9,12 @@ import { locationmodel } from "./location";
   styleUrls: ["./app.component.css"]
 })
 export class AppComponent implements OnInit {
+  @ViewChild("places", { static: true }) places: GooglePlaceDirective;
+
+  options = {
+    types: ["(cities)"]
+  };
+
   value = "";
   locations: locationmodel[];
   searchValue: string = "";
@@ -20,34 +27,34 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.CService.getLocations().subscribe((data: any) => {
       this.locations = data;
-
       console.log(this.data);
       for (let entry of this.locations) {
         this.data.push(entry.locationName);
       }
     });
   }
+  onChange(value: any) {
+    console.log(value.address_components[0].long_name);
+  }
 
-  onEnter(value: string) {
-    if (value != "") {
-      this.value = value;
-      this.searchValue = null;
-      this.CService.AddLocationdata(value).subscribe(() =>
-        this.CService.getLocations().subscribe((data: any) => {
-          this.locations = data;
+  onEnter() {
+    // console.log(value)
+    console.log(this.searchValue);
+    this.value = this.searchValue;
+    this.searchValue = "";
+    this.CService.AddLocationdata(this.value).subscribe(() =>
+      this.CService.getLocations().subscribe((data: any) => {
+        this.locations = data;
 
-          for (let entry of this.locations) {
-            if (
-              this.data.find(test => test === entry.locationName) === undefined
-            ) {
-              this.data.push(entry.locationName);
-            }
+        for (let entry of this.locations) {
+          if (
+            this.data.find(test => test === entry.locationName) === undefined
+          ) {
+            this.data.push(entry.locationName);
           }
-        })
-      );
-    } else {
-      alert("Please Enter Value");
-    }
+        }
+      })
+    );
   }
 
   //
